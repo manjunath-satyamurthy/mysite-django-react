@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="utf-8">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'main/styles/main.css' %}">
+  </head>
+  <body>
+    <div class="menu">
+      <a class="menu-link" name="home" href="/">Home</a>
+      <a class="menu-link" name="technologies" href="/technologies">Technologies</a>
+      <a class="menu-link" name="work-history" href="/work-history">Work History</a>
+      <a class="menu-link" name="education" href="/education">Education</a>
+      <a class="menu-link" name="projects" href="/projects">Projects</a>
+      <a class="menu-link" name="resume" href="/resume">Resume</a>
+      <a class="menu-link" name="photos" href="/photos">Photos</a>
+      <a class="menu-link" name="contact-me" href="/contact-me">Contact me</a>
+      <a class="menu-link" name="credits" href="/credits">Credits</a>
+    </div>
+    <div class="padded-div">
+      {% block content %}
+      {% endblock %}
+    </div>
+    <script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      $(document).ready(function (){
+        var path = window.location.pathname;
+        if (path === "/"){
+          path = 'home'
+        } else {
+          path = path.split("/")[1]
+        }
+
+        $('.menu-link').removeClass("active");
+        $(".menu").find("[name="+path+"]").addClass("active")
+      });
+    </script>
+    <script type="text/javascript" src="{% static 'main/scripts/vendor.bundle.js' %}"></script>
+    {% block scripts %}
+    {% endblock %}
+  </body>
+</html>
