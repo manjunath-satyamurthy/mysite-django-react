@@ -26,6 +26,7 @@ SECRET_KEY = 'r^q25239iwv1(2s6=_hkr1is-a93yg3*5db7-*5612zs#^@vsb'
 IS_PRODUCTION = os.environ.get('IS_PRODUCTION')
 if IS_PRODUCTION:
     ALLOWED_HOSTS = ["mysite-django-react.herokuapp.com", "manjunathsatyamurthy.com"]
+    DEBUG + True
     # SECURITY WARNING: don't run with debug turned on in production!
 else:
     DEBUG = True
