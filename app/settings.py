@@ -23,8 +23,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'r^q25239iwv1(2s6=_hkr1is-a93yg3*5db7-*5612zs#^@vsb'
 
 
-
-if os.environ.get('IS_PRODUCTION'):
+IS_PRODUCTION = os.environ.get('IS_PRODUCTION')
+if IS_PRODUCTION:
     ALLOWED_HOSTS = ["mysite-django-react.herokuapp.com", "manjunathsatyamurthy.com"]
     # SECURITY WARNING: don't run with debug turned on in production!
 else:
@@ -86,7 +86,7 @@ DATABASES = {
         'HOST': 'localhost'
     }
 }
-if os.environ.get('IS_PRODUCTION'):
+if IS_PRODUCTION:
     DATABASE_URL = os.environ.get('CLEARDB_DATABASE_URL')
     d = DATABASE_URL.split('@')
     user , password = d[0].split('mysql://')[1].split(':')
@@ -146,3 +146,19 @@ STATICFILES_DIRS = (
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR + "/media/"
+
+
+if IS_PRODUCTION:
+    import cloudinary
+    import cloudinary.uploader
+    import cloudinary.api
+
+    CLOUDINARY_URL = os.environ.get("CLOUDINARY_URL")
+    part_url, cloud_name = CLOUDINARY_URL.split("@")
+    api_key, api_secret = part_url.split("cloudinary://")[1].split(":")
+    cloudinary.config( 
+      cloud_name = cloud_name, 
+      api_key = api_key, 
+      api_secret = api_secret 
+    )
+

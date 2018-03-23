@@ -4,17 +4,51 @@ from django.contrib.auth.models import AbstractUser
 
 class RootUser(AbstractUser):
     profile_photo = models.ImageField(upload_to="profile")
+    profile_photo_url = models.CharField(max_length=250, null=True, blank=True)
     description = models.TextField()
     resume = models.FileField(upload_to="resume", default="resume/resume.pdf")
+    resume_url = models.CharField(max_length=250, null=True, blank=True)
+
+    __old_profile_photo = None
+    __old_resume = None
+
+    def __init__(self, *args, **kwargs):
+        super(RootUser, self).__init__(*args, **kwargs)
+        self.__old_profile_photo = self.profile_photo
+
 
     def update_photo(self, image):
         self.profile_photo = image
 
     def update_description(self, description):
         self.description = description
+        self.save(photo=True)
 
     def update_resume(self, resume):
         self.resume = resume
+
+    def save(self, *args, **kwargs):
+        super(RootUser, self).save(*args, **kwargs)
+        if self.__old_profile_photo != self.profile_photo:
+            if settings.IS_PRODUCTION:
+                import cloudinary
+                cloudinary_url = cloudinary.uploader.upload(self.profile_photo)
+                self.profile_photo_url = cloudinary_url['url']
+            else:
+                self.profile_photo_url = self.profile_photo.url
+
+            super(RootUser, self).save(*args, **kwargs)
+
+        if self.__old_resume != self.resume:
+            if settings.IS_PRODUCTION:
+                import cloudinary
+                cloudinary_url = cloudinary.uploader.upload(self.resume)
+                self.resume_url = cloudinary_url['url']
+            else:
+                self.resume_url = self.resume.url
+
+            super(RootUser, self).save(*args, **kwargs)
+
 
 
 
@@ -57,7 +91,24 @@ class Project(models.Model):
 
 class Photo(models.Model):
     image = models.ImageField(upload_to="photos")
+    image_url = models.CharField(max_length=250, null=True, blank=True)
     comment = models.CharField(max_length=500)
     tag = models.CharField(max_length=25)
 
+    __old_image = None
 
+    def __init__(self, *args, **kwargs):
+        super(Photo, self).__init__(*args, **kwargs)
+        self.__old_image = self.image
+
+    def save(self, *args, **kwargs):
+        super(Photo, self).save(*args, **kwargs)
+        if self.__old_image != self.image:
+            if settings.IS_PRODUCTION:
+                import cloudinary
+                cloudinary_url = cloudinary.uploader.upload(self.profile_photo)
+                self.image_url = cloudinary_url['url']
+            else:
+                self.image_url = self.image.url
+
+            super(Photo, self).save(*args, **kwargs)

@@ -94,7 +94,7 @@ def get_homepage(request):
 	if request.method == 'GET':
 		user = RootUser.objects.get(username=settings.ROOT_USER)
 		return JsonResponse({
-			"profile_photo_url": user.profile_photo.url if user.profile_photo else '',
+			"profile_photo_url": user.profile_photo_url if user.profile_photo else '',
 			"description": user.description
 		})
 
@@ -167,7 +167,7 @@ def get_projects(request):
 def get_resume(request):
 	user = RootUser.objects.get(username=settings.ROOT_USER)
 	return JsonResponse({
-		"url": user.resume.url
+		"url": user.resume_url
 		})
 
 
@@ -189,7 +189,7 @@ def get_photos(request):
 		result = []
 		for photo in photos:
 			result.append({
-			'image_url': "http://localhost:8000"+photo.image.url,
+			'image_url': photo.image_url,
 			'comment': photo.comment,
 			'tag': photo.tag,
 			})

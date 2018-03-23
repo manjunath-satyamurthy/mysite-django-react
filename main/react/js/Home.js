@@ -223,7 +223,7 @@ class Home extends Component {
         })
         .then(json => {
           localStorage.description = json.description;
-          localStorage.profileImageURL = window.location.origin + json.profile_photo_url;
+          localStorage.profileImageURL = json.profile_photo_url;
           localStorage.shouldHomepageLoad = false;
           this.setState({
             description: LocalStorage.description(),
