@@ -47,8 +47,8 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "start": "node app/react/scripts/start.js",
-    "build": "node app/react/scripts/build.js",
+    "start": "node react/scripts/start.js",
+    "build": "node react/scripts/build.js",
     "test": "jest"
   },
   "devDependencies": {
@@ -68,17 +68,17 @@
   },
   "jest": {
     "setupFiles": [
-      "<rootDir>/app/react/polyfills.js"
+      "<rootDir>/react/polyfills.js"
     ],
     "testMatch": [
-      "<rootDir>/app/react/tests/*.js"
+      "<rootDir>/react/tests/*.js"
     ],
     "testURL": "http://localhost",
     "testEnvironment": "jsdom",
     "transform": {
       "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest",
-      "^.+\\.css$": "<rootDir>/app/react/config/jestMocks/cssTransform.js",
-      "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/app/react/config/jestMocks/fileTransform.js"
+      "^.+\\.css$": "<rootDir>/react/config/jestMocks/cssTransform.js",
+      "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/react/config/jestMocks/fileTransform.js"
     },
     "transformIgnorePatterns": [
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
@@ -101,7 +101,10 @@
     ],
     "env": {
       "test": {
-        "presets": ["es2015", "react"]
+        "presets": [
+          "es2015",
+          "react"
+        ]
       }
     }
   },

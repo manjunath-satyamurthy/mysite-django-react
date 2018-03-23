@@ -91,7 +91,7 @@ class Photos extends Component {
 
 	render() {
 		if (this.state.shouldPageLoad) {
-			fetch("http://localhost:8000/get_photos", {
+			fetch("http://"+window.location.hostname+"/get_photos", {
 				method: "GET"
 			})
 				.then(res => {

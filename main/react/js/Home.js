@@ -179,7 +179,7 @@ class Home extends Component {
       data.append("photo", this.state.uploadFile);
     }
 
-    fetch("http://localhost:8000/update_home_page/", {
+    fetch("http://"+window.location.hostname+"/update_home_page/", {
       method: "POST",
       credentials: "include",
       body: data,
@@ -213,7 +213,7 @@ class Home extends Component {
 
   render() {
     if (this.state.shouldPageLoad) {
-      fetch("http://localhost:8000/get_home_page/", {
+      fetch("http://"+window.location.hostname+"/get_home_page/", {
         method: "GET"
       })
         .then(res => {

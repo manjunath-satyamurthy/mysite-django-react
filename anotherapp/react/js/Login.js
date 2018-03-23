@@ -41,7 +41,7 @@ class Login extends Component {
       })
     );
 
-    fetch("http://localhost:8000/login/", {
+    fetch("http://"+window.location.hostname+"/login/", {
       method: "post",
       credentials: "include",
       body: data,

@@ -21,7 +21,7 @@ class Technologies extends Component {
 		let body = [];
 		console.log(this.state.shouldPageLoad)
 		if (this.state.shouldPageLoad) {
-			fetch("http://localhost:8000/get_technologies/", {
+			fetch("http://"+window.location.hostname+"/get_technologies/", {
 				method: "GET"
 			})
 				.then(res => {

@@ -12,7 +12,7 @@ class WorkHistory extends Component {
 	}
 	render() {
 		if (this.state.shouldPageLoad) {
-			fetch("http://localhost:8000/get_work_history/", {
+			fetch("http://"+window.location.hostname+"/get_work_history/", {
 				method: "GET"
 			})
 				.then(res => {

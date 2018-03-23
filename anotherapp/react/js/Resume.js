@@ -26,7 +26,7 @@ class Resume extends Component {
 		if (this.state.uploadFile) {
 			let data = new FormData();
 			data.append("resume", this.state.uploadFile);
-			fetch("http://localhost:8000/update_resume/", {
+			fetch("http://"+window.location.hostname+"/update_resume/", {
 				method: "POST",
 				credentials: "include",
 				body: data,
@@ -75,7 +75,7 @@ class Resume extends Component {
 		}
 
 		if (this.state.shouldPageLoad) {
-			fetch("http://localhost:8000/get_resume/", {
+			fetch("http://"+window.location.hostname+"/get_resume/", {
 				method: "GET",
 				credentials: "include"
 			})

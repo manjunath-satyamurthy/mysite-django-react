@@ -11,16 +11,17 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
 	entry: () => {
 		let entries = {};
-		const source = "./app/";
+		const source = "./";
 		let apps = [];
 		fs.readdirSync(source).forEach(function(directory){
-			if (fs.statSync(source+directory).isDirectory() && fs.existsSync(source+directory+"/react/")){
-				apps.push(source+directory+"/react/");
+			if (fs.statSync(source+directory).isDirectory() && fs.existsSync(source+directory+"/react/js")){
+				apps.push(source+directory+"/react");
 			}
 		})
 
 		apps.forEach(function(app){
-			let appname = app.split("/")[2];
+			console.log(app.split("/"))
+			let appname = app.split("/")[1];
 			let files = fs.readdirSync(app+"/js/");
 			if (files){
 				files.forEach(function(file){
@@ -32,11 +33,12 @@ module.exports = {
 				})
 			}
 		})
+		console.log(entries)
 		return entries
 	},
 
 	output: {
-		path: "/home/tcnc/mysite-django-react/app/",
+		path: path.resolve(__dirname, "../../"),
 		pathinfo: true,
 		filename: "[name].bundle.js"
 	},
@@ -135,7 +137,7 @@ module.exports = {
 		alias: (() => {
 			let aliases = {};
 			aliases['reactRoot'] = path.resolve(__dirname, "../../react/")
-			const source = "./app/";
+			const source = "./";
 
 			let apps = [];
 			fs.readdirSync(source).forEach(function(directory){

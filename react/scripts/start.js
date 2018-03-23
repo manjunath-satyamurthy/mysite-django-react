@@ -7,10 +7,12 @@ const jest = require('jest');
 const webpackConfig = require('../config/webpack.config.js') 
 const webpack = require("webpack");
 
+
+
 const compiler = webpack(webpackConfig);
 
 compiler.watch({stats: "normal"}, (err, stats) => {
-	jest.run();
+	console.log(err)
 	console.log(
 		stats.toString({
 			colors: true,
