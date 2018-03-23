@@ -12,7 +12,7 @@ class Projects extends Component {
 	}
 	render() {
 		if (this.state.shouldPageLoad) {
-			fetch("http://"+window.location.hostname+"/get_projects/", {
+			fetch(window.location.origin+"/get_projects/", {
 				method: "GET"
 			})
 				.then(res => {

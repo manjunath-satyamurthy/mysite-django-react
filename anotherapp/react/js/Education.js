@@ -12,7 +12,7 @@ class Education extends Component {
 	}
 	render() {
 		if (this.state.shouldPageLoad) {
-			fetch("http://"+window.location.hostname+"/get_education/", {
+			fetch(window.location.origin+"/get_education/", {
 				method: "GET"
 			})
 				.then(res => {

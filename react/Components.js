@@ -81,7 +81,7 @@ class ControlButtons extends Component {
   }
 
   onLogoutClick(e) {
-    fetch("http://localhost:8000/logout", {
+    fetch(window.location.origin+"/logout", {
       credentials: "include"
     }).then(res => {
       if (res.ok) {

@@ -80,7 +80,7 @@ def update_homepage(request):
 	if request.method == 'POST':
 		description = json.loads(request.POST["data"])["description"] if request.POST else None
 		photo = request.FILES["photo"] if request.FILES else None
-
+		print description, photo
 		if photo:
 			request.user.update_photo(photo)
 		if description:

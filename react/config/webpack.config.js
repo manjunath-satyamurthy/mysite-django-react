@@ -77,7 +77,7 @@ module.exports = {
 							return pathparts.join("/")
 						},
 						outputPath: (file) => {
-							let appname = file.split("/")[1];
+							let appname = file.split("/")[0];
 							let filename = file.split("/")[file.split("/").length-1]
 							return appname+"/static/"+appname+"/images/"+filename
 						},

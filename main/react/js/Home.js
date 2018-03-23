@@ -8,6 +8,8 @@ import LinkedInIcon from "mainDjango/images/linked-in.png"
 import TwitterIcon from "mainDjango/images/twitter.png"
 import StackOverflowIcon from "mainDjango/images/stackoverflow.svg"
 
+console.log(FacebookIcon)
+
 
 class ProfilePhoto extends Component {
   render() {
@@ -57,7 +59,7 @@ class TextDescription extends Component {
         <textarea
           id="description-input"
           rows="15"
-          onChang={this.props.onChange}
+          onChange={this.props.onChange}
           defaultValue={this.props.text}
         />
       );
@@ -167,6 +169,7 @@ class Home extends Component {
 
   onSaveClick(e) {
     let data = new FormData();
+    console.log(this.state.updateDescription)
     if (this.state.updateDescription) {
       data.append(
         "data",
@@ -179,7 +182,8 @@ class Home extends Component {
       data.append("photo", this.state.uploadFile);
     }
 
-    fetch("http://"+window.location.hostname+"/update_home_page/", {
+    console.log(data)
+    fetch(window.location.origin+"/update_home_page/", {
       method: "POST",
       credentials: "include",
       body: data,
@@ -206,6 +210,7 @@ class Home extends Component {
   }
 
   onDescriptionChange(e) {
+    console.log("herere")
     this.setState({
       updateDescription: e.currentTarget.value
     });
@@ -213,7 +218,7 @@ class Home extends Component {
 
   render() {
     if (this.state.shouldPageLoad) {
-      fetch("http://"+window.location.hostname+"/get_home_page/", {
+      fetch(window.location.origin+"/get_home_page/", {
         method: "GET"
       })
         .then(res => {
@@ -223,8 +228,7 @@ class Home extends Component {
         })
         .then(json => {
           localStorage.description = json.description;
-          localStorage.profileImageURL =
-            "http://"+window.location.hostname + json.profile_photo_url;
+          localStorage.profileImageURL = window.location.origin + json.profile_photo_url;
           localStorage.shouldHomepageLoad = false;
           this.setState({
             description: LocalStorage.description(),
