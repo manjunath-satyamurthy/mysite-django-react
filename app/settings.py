@@ -22,10 +22,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'r^q25239iwv1(2s6=_hkr1is-a93yg3*5db7-*5612zs#^@vsb'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = ["mysite-django-react.herokuapp.com", "manjunathsatyamurthy.com"]
+
+if os.environ.get('IS_PRODUCTION'):
+    ALLOWED_HOSTS = ["mysite-django-react.herokuapp.com", "manjunathsatyamurthy.com"]
+    # SECURITY WARNING: don't run with debug turned on in production!
+else:
+    DEBUG = True
 
 # Application definition
 
@@ -83,7 +86,7 @@ DATABASES = {
         'HOST': 'localhost'
     }
 }
-if os.environ.get('CLEARDB_DATABASE_URL') is not None:
+if os.environ.get('IS_PRODUCTION'):
     DATABASE_URL = os.environ.get('CLEARDB_DATABASE_URL')
     d = DATABASE_URL.split('@')
     user , password = d[0].split('mysql://')[1].split(':')

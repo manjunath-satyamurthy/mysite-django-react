@@ -167,7 +167,7 @@ def get_projects(request):
 def get_resume(request):
 	user = RootUser.objects.get(username=settings.ROOT_USER)
 	return JsonResponse({
-		"url": "http://localhost:8000" + user.resume.url
+		"url": user.resume.url
 		})
 
 
