@@ -23,7 +23,6 @@ class RootUser(AbstractUser):
 
     def update_description(self, description):
         self.description = description
-        self.save(photo=True)
 
     def update_resume(self, resume):
         self.resume = resume
