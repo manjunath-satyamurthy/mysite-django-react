@@ -108,7 +108,7 @@ class Photo(models.Model):
         if self.__old_image != self.image:
             if os.environ.get("IS_PRODUCTION"):
                 import cloudinary
-                cloudinary_url = cloudinary.uploader.upload(self.profile_photo)
+                cloudinary_url = cloudinary.uploader.upload(self.image)
                 self.image_url = cloudinary_url['url']
             else:
                 self.image_url = self.image.url
