@@ -76,10 +76,24 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'mysite',
+        'USER': 'manju',
+        'PASSWORD': '1234',
+        'HOST': 'localhost'
     }
 }
+if os.environ.get('CLEARDB_DATABASE_URL') is not None:
+    DATABASE_URL = os.environ.get('CLEARDB_DATABASE_URL')
+    d = DATABASE_URL.split('@')
+    user , password = d[0].split('mysql://')[1].split(':')
+    host, name = d[1].split('/')
+    name = name.split('?')[0]
+
+    DATABASES["default"]["USER"] = user
+    DATABASES["default"]["PASSWORD"] = password
+    DATABASES["default"]["HOST"] = host
+    DATABASES["default"]["NAME"] = name
 
 
 # Password validation
