@@ -23,11 +23,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'r^q25239iwv1(2s6=_hkr1is-a93yg3*5db7-*5612zs#^@vsb'
 
 
-IS_PRODUCTION = os.environ.get('IS_PRODUCTION')
+IS_PRODUCTION = False
+if os.environ.get('IS_PRODUCTION'):
+    IS_PRODUCTION = True
+
+
 if IS_PRODUCTION:
     ALLOWED_HOSTS = ["mysite-django-react.herokuapp.com", "manjunathsatyamurthy.com", "www.manjunathsatyamurthy.com"]
     DEBUG = True
-    # SECURITY WARNING: don't run with debug turned on in production!
 else:
     DEBUG = True
 
@@ -147,6 +150,7 @@ STATICFILES_DIRS = (
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR + "/media/"
+
 
 if IS_PRODUCTION:
     import cloudinary
