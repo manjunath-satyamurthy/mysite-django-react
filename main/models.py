@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+import os
 
 class RootUser(AbstractUser):
     profile_photo = models.ImageField(upload_to="profile")
