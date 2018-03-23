@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^get_resume/$', views.get_resume, name='get_resume'),
     url(r'^update_resume/$', views.update_resume, name='update_resume'),
     url(r'^get_photos/$', views.get_photos, name='get_photos'),
+    url(r'^google4a37ebd500121679.html$', views.google, name='google'),
 ]

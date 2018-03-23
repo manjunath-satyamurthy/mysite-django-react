@@ -60,6 +60,10 @@ def credits(request):
 	if request.method == 'GET':
 		return render(request, 'credits.html')
 
+def google(request):
+	if request.method == 'GET':
+		return render(request, 'google4a37ebd500121679.html')
+
 
 
 @login_required
