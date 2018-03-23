@@ -8,8 +8,6 @@ import LinkedInIcon from "mainDjango/images/linked-in.png"
 import TwitterIcon from "mainDjango/images/twitter.png"
 import StackOverflowIcon from "mainDjango/images/stackoverflow.svg"
 
-console.log(FacebookIcon)
-
 
 class ProfilePhoto extends Component {
   render() {
@@ -169,7 +167,6 @@ class Home extends Component {
 
   onSaveClick(e) {
     let data = new FormData();
-    console.log(this.state.updateDescription)
     if (this.state.updateDescription) {
       data.append(
         "data",
@@ -182,7 +179,6 @@ class Home extends Component {
       data.append("photo", this.state.uploadFile);
     }
 
-    console.log(data)
     fetch(window.location.origin+"/update_home_page/", {
       method: "POST",
       credentials: "include",
@@ -210,7 +206,6 @@ class Home extends Component {
   }
 
   onDescriptionChange(e) {
-    console.log("herere")
     this.setState({
       updateDescription: e.currentTarget.value
     });

@@ -25,7 +25,7 @@ SECRET_KEY = 'r^q25239iwv1(2s6=_hkr1is-a93yg3*5db7-*5612zs#^@vsb'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = ["http://127.0.0.1:8000/", "http://127.0.0.1","mysite-django-react.herokuapp.com", "manjunathsatyamurthy.com"]
+ALLOWED_HOSTS = ["mysite-django-react.herokuapp.com", "manjunathsatyamurthy.com"]
 
 # Application definition
 
