@@ -30,7 +30,7 @@ class RootUser(AbstractUser):
     def save(self, *args, **kwargs):
         super(RootUser, self).save(*args, **kwargs)
         if self.__old_profile_photo != self.profile_photo:
-            if settings.IS_PRODUCTION:
+            if os.environ.get("IS_PRODUCTION"):
                 import cloudinary
                 cloudinary_url = cloudinary.uploader.upload(self.profile_photo)
                 self.profile_photo_url = cloudinary_url['url']
@@ -40,10 +40,11 @@ class RootUser(AbstractUser):
             super(RootUser, self).save(*args, **kwargs)
 
         if self.__old_resume != self.resume:
-            if settings.IS_PRODUCTION:
+            if os.environ.get("IS_PRODUCTION"):
                 import cloudinary
                 cloudinary_url = cloudinary.uploader.upload(self.resume)
                 self.resume_url = cloudinary_url['url']
+                print(self.resume_url)
             else:
                 self.resume_url = self.resume.url
 
@@ -104,7 +105,7 @@ class Photo(models.Model):
     def save(self, *args, **kwargs):
         super(Photo, self).save(*args, **kwargs)
         if self.__old_image != self.image:
-            if settings.IS_PRODUCTION:
+            if os.environ.get("IS_PRODUCTION"):
                 import cloudinary
                 cloudinary_url = cloudinary.uploader.upload(self.profile_photo)
                 self.image_url = cloudinary_url['url']
