@@ -472,8 +472,11 @@ object {
         outline:none;
         width: 10em;
         height: 10em;
-        float: right;
+    }
 
+    #menu-toggle {
+        position: absolute;
+        right: 0;
     }
 
 
