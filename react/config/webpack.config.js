@@ -20,7 +20,6 @@ module.exports = {
 		})
 
 		apps.forEach(function(app){
-			console.log(app.split("/"))
 			let appname = app.split("/")[1];
 			let files = fs.readdirSync(app+"/js/");
 			if (files){
@@ -33,7 +32,6 @@ module.exports = {
 				})
 			}
 		})
-		console.log(entries)
 		return entries
 	},
 
@@ -98,9 +96,10 @@ module.exports = {
 								return pathparts.join("/")
 							},
 							outputPath: (file) => {
-								let appname = file.split("/")[1];
+								let appname = file.split("/")[0];
 								let filename = file.split("/")[file.split("/").length-1]
 								return appname+"/static/"+appname+"/styles/"+filename
+
 							},
 						}
                     },
@@ -110,6 +109,7 @@ module.exports = {
 					{
 						loader: require.resolve("css-loader"),
 						options: {
+							url: false,
 							importLoaders: 1,
 						}
 					},

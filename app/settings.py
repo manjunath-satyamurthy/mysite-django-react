@@ -29,7 +29,7 @@ if os.environ.get('IS_PRODUCTION'):
 
 
 if IS_PRODUCTION:
-    ALLOWED_HOSTS = ["mysite-django-react.herokuapp.com", "manjunathsatyamurthy.com", "www.manjunathsatyamurthy.com"]
+    ALLOWED_HOSTS = ["192.168.0.59", "192.168.0.59:8000", "mysite-django-react.herokuapp.com", "manjunathsatyamurthy.com", "www.manjunathsatyamurthy.com"]
     DEBUG = True
 else:
     DEBUG = True

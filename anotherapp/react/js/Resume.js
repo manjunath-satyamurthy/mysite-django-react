@@ -92,15 +92,21 @@ class Resume extends Component {
 				});
 		}
 
+	    let controlButtons=null;
+	    if (this.state.isLoggedIn){
+	      controlButtons = <ControlButtons
+	            isLoggedIn={this.state.isLoggedIn}
+	            isEdited={this.state.isEdited}
+	            onEditClick={this.onEditClick}
+	            onSaveClick={this.onSaveClick}
+	          />
+	    }
+
+
 		if (this.state.resumeURL) {
 			return (
 				<div className="padded-div">
-					<ControlButtons
-						isLoggedIn={this.state.isLoggedIn}
-						isEdited={this.state.isEdited}
-						onEditClick={this.onEditClick}
-						onSaveClick={this.onSaveClick}
-					/>
+					{controlButtons}
 					{resumePDF}
 					{uploadResume}
 				</div>

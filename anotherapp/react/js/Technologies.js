@@ -62,11 +62,7 @@ class Technologies extends Component {
 		}
 
 		if (!this.state.shouldPageLoad) {
-			return (
-				<div className="padded-div">
-					<InfoTable theaders={header} tbody={body} />
-				</div>
-			);
+			return <InfoTable theaders={header} tbody={body} />;
 		} else {
 			return <p>Loading ...</p>;
 		}

@@ -12,7 +12,9 @@ import StackOverflowIcon from "mainDjango/images/stackoverflow.svg"
 class ProfilePhoto extends Component {
   render() {
     let image = (
+      <div className="profile-photo-container">
       <img alt="" src={this.props.profileImgURL} id={this.props.photoType} />
+      </div>
     );
     let uploadProfilePhoto = null;
     if (this.props.isLoggedIn & this.props.isEdited) {
@@ -233,15 +235,20 @@ class Home extends Component {
         });
     }
 
-    if (!this.state.shouldPageLoad) {
-      return (
-        <div className="padded-div">
-          <ControlButtons
+    let controlButtons=null;
+    if (this.state.isLoggedIn){
+      controlButtons = <ControlButtons
             isLoggedIn={this.state.isLoggedIn}
             isEdited={this.state.isEdited}
             onEditClick={this.onEditClick}
             onSaveClick={this.onSaveClick}
           />
+    }
+
+    if (!this.state.shouldPageLoad) {
+      return (
+        <div>
+          {controlButtons}
           <ProfilePhoto
             profileImgURL={this.state.profileImageURL}
             photoType="profile-photo"
@@ -250,7 +257,7 @@ class Home extends Component {
             onChange={this.onProfileImageChange}
           />
           <MainHeading
-            headingType="center"
+            headingType="center my-name"
             id="manjunath-satyamurthy"
             content="Manjunath Satyamurthy"
           />
