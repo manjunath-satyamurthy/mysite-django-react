@@ -30,14 +30,9 @@ class WorkHistory extends Component {
 				});
 		}
 
-		let body = [];
-		let header = (
-			<TableHeaders
-				header={[{ head: "Work History", colspan: 2 }]}
-				className="main-table-header"
-			/>
-		);
+		let tables = [];
 		let workHistory = this.state.workHistory;
+		let key = 0
 
 		for (let i in workHistory) {
 			let companyLink = (
@@ -46,12 +41,11 @@ class WorkHistory extends Component {
 				</a>
 			);
 
-			body.push(
-				<TableHeaders
+			let body = [];
+			let header =<TableHeaders
 					header={[{ head: companyLink, colspan: 2 }]}
 					key={workHistory[i].Company}
 				/>
-			);
 			body.push(
 				<TableRow
 					body={[
@@ -79,12 +73,17 @@ class WorkHistory extends Component {
 					key={workHistory[i].Description}
 				/>
 			);
+
+			tables.push(<InfoTable theaders={header} tbody={body} key={key} />)
+			key = key + 1
 		}
 
 		if (!this.state.shouldPageLoad) {
 			return (
-				<div className="padded-div">
-					<InfoTable theaders={header} tbody={body} />
+				<div>
+					<div className="background work-history-background"></div>
+					<h1 className="page-heading">Work History</h1>
+					<div className="table-container">{tables}</div>
 				</div>
 			);
 		} else {

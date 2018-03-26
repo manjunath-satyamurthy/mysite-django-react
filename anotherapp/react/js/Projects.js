@@ -30,14 +30,11 @@ class Projects extends Component {
 				});
 		}
 
-		let body = [];
-		let header = (
-			<TableHeaders
-				header={[{ head: "Projects", colspan: 2 }]}
-				className="main-table-header"
-			/>
-		);
+
+		let tables = [];
 		let project = this.state.project;
+		let key = 0;
+
 		for (let i in project) {
 			let projectLink = (
 				<a target="_blank" rel="noopener noreferrer" href={project[i].github_link}>
@@ -45,12 +42,13 @@ class Projects extends Component {
 				</a>
 			);
 
-			body.push(
-				<TableHeaders
+
+			let body = [];
+			let header = <TableHeaders
 					header={[{ head: projectLink, colspan: 2 }]}
 					key={project[i].name}
 				/>
-			);
+
 			body.push(
 				<TableRow
 					body={[
@@ -60,12 +58,17 @@ class Projects extends Component {
 					key={project[i].description}
 				/>
 			);
+
+			tables.push(<InfoTable theaders={header} tbody={body} key={key}/>)
+			key = key + 1
 		}
 
 		if (!this.state.shouldPageLoad) {
 			return (
-				<div className="padded-div">
-					<InfoTable theaders={header} tbody={body} />
+				<div>
+					<div className="background projects-background"></div>
+					<h1 className="page-heading">Projects</h1>
+					<div className="table-container">{tables}</div>
 				</div>
 			);
 		} else {

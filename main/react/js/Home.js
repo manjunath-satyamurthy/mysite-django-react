@@ -7,9 +7,16 @@ import GooglePlusIcon from "mainDjango/images/google-plus.gif"
 import LinkedInIcon from "mainDjango/images/linked-in.png"
 import TwitterIcon from "mainDjango/images/twitter.png"
 import StackOverflowIcon from "mainDjango/images/stackoverflow.svg"
+import License from "mainDjango/images/license.png"
 
 
 class ProfilePhoto extends Component {
+
+  // const backgroundStyle = {
+
+  // }
+
+
   render() {
     let image = (
       <div className="profile-photo-container">
@@ -41,12 +48,13 @@ class ProfilePhoto extends Component {
 class MainHeading extends Component {
   render() {
     return (
-      <h1
-        className={this.props.headingType}
-        id={this.props.id ? this.props.id : ""}
-      >
-        {this.props.content}
-      </h1>
+      <div>
+        <h1 className={this.props.headingType}
+          id={this.props.id ? this.props.id : ""}>
+          {this.props.content}
+        </h1>
+        <h4 className="center sub-heading">{this.props.subContent}</h4>
+      </div>
     );
   }
 }
@@ -248,6 +256,7 @@ class Home extends Component {
     if (!this.state.shouldPageLoad) {
       return (
         <div>
+          <div className="background home-background"></div>
           {controlButtons}
           <ProfilePhoto
             profileImgURL={this.state.profileImageURL}
@@ -260,6 +269,7 @@ class Home extends Component {
             headingType="center my-name"
             id="manjunath-satyamurthy"
             content="Manjunath Satyamurthy"
+            subContent="Software Developer @ Tesa Scribos Gmbh."
           />
           <TextDescription
             descriptionType="welcome-text"
@@ -269,6 +279,11 @@ class Home extends Component {
             onChange={this.onDescriptionChange}
           />
           <ProfileLinks />
+          <p className="center license">
+            <a href="https://github.com/manjunath-satyamurthy/mysite-django-react/blob/master/LICENSE">
+              <img className="license-img" alt="LICENSE" src={License} />
+            </a>
+          </p>
         </div>
       );
     } else {

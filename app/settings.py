@@ -27,6 +27,7 @@ IS_PRODUCTION = False
 if os.environ.get('IS_PRODUCTION'):
     IS_PRODUCTION = True
 
+ALLOWED_HOSTS = ["192.168.0.59", "192.168.0.59:8000", "127.0.0.1","mysite-django-react.herokuapp.com", "manjunathsatyamurthy.com", "www.manjunathsatyamurthy.com"]
 
 if IS_PRODUCTION:
     ALLOWED_HOSTS = ["mysite-django-react.herokuapp.com", "manjunathsatyamurthy.com", "www.manjunathsatyamurthy.com"]

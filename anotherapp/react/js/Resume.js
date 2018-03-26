@@ -105,7 +105,7 @@ class Resume extends Component {
 
 		if (this.state.resumeURL) {
 			return (
-				<div className="padded-div">
+				<div>
 					{controlButtons}
 					{resumePDF}
 					{uploadResume}

@@ -30,22 +30,15 @@ class Education extends Component {
 				});
 		}
 
-		let body = [];
-		let header = (
-			<TableHeaders
-				header={[{ head: "Education", colspan: 2 }]}
-				className="main-table-header"
-			/>
-		);
+		let tables = [];
 		let education = this.state.education;
-
+		let key = 0;
 		for (let i in education) {
-			body.push(
-				<TableHeaders
+			let body = [];
+			let header = <TableHeaders
 					header={[{ head: education[i].school_name, colspan: 2 }]}
 					key={education[i].school_name}
 				/>
-			);
 			body.push(
 				<TableRow
 					body={[
@@ -82,12 +75,17 @@ class Education extends Component {
 					key={education[i].description}
 				/>
 			);
+
+			tables.push(<InfoTable theaders={header} tbody={body} key={key}/>)
+			key = key + 1
 		}
 
 		if (!this.state.shouldPageLoad) {
 			return (
-				<div className="padded-div">
-					<InfoTable theaders={header} tbody={body} />
+				<div>
+					<div className="background education-background"></div>
+					<h1 className="page-heading">Education</h1>
+					<div className="table-container">{tables}</div>
 				</div>
 			);
 		} else {

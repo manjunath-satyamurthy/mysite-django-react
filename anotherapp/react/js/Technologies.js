@@ -12,14 +12,6 @@ class Technologies extends Component {
 	}
 
 	render() {
-		let header = (
-			<TableHeaders
-				header={[{ head: "Technologies", colspan: 2 }]}
-				className="main-table-header"
-			/>
-		);
-		let body = [];
-		console.log(this.state.shouldPageLoad)
 		if (this.state.shouldPageLoad) {
 			fetch(window.location.origin+"/get_technologies/", {
 				method: "GET"
@@ -40,13 +32,14 @@ class Technologies extends Component {
 		}
 
 		let technologies = this.state.technologies;
+		let tables = [];
+		let key = 0;
 		for (let category in technologies) {
-			body.push(
-				<TableHeaders
+			let header = <TableHeaders
 					header={[{ head: category, colspan: 2 }]}
 					key={category}
 				/>
-			);
+			let body = [];
 			for (let expertise in technologies[category]) {
 				let particulars = technologies[category][expertise].join(", ");
 				body.push(
@@ -59,10 +52,19 @@ class Technologies extends Component {
 					/>
 				);
 			}
+
+			tables.push(<InfoTable theaders={header} tbody={body} key={key}/>)
+			key = key + 1
 		}
 
 		if (!this.state.shouldPageLoad) {
-			return <InfoTable theaders={header} tbody={body} />;
+			return (
+				<div>
+				<div className="background technologies-background"></div>
+				<h1 className="page-heading">Technologies</h1>
+				<div className="table-container">{tables}</div>
+				</div>
+			);
 		} else {
 			return <p>Loading ...</p>;
 		}

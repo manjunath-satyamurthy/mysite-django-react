@@ -2,7 +2,23 @@ import React, { Component } from "react";
 
 
 class LocalStorage {
+
+  static localStorageExpiry = () => {
+    var now = new Date().getTime()
+    var setupTime = localStorage.getItem('setupTime');
+    console.log(now, setupTime)
+    if (setupTime == null) {
+        localStorage.setItem('setupTime', now)
+    } else {
+        if(now-setupTime > 120*1000) {
+            localStorage.clear()
+            localStorage.setItem('setupTime', now);
+        }
+    }
+  };
+
   static isLoggedIn = () => {
+    LocalStorage.localStorageExpiry();
     return localStorage.isLoggedIn
       ? JSON.parse(localStorage.isLoggedIn)
       : false;
@@ -13,6 +29,7 @@ class LocalStorage {
       : null;
   };
   static shouldHomepageLoad = () => {
+    LocalStorage.localStorageExpiry();
     return localStorage.shouldHomepageLoad
       ? JSON.parse(localStorage.shouldHomepageLoad)
       : true;
@@ -28,6 +45,7 @@ class LocalStorage {
       : null;
   };
   static shouldTechnologiesLoad = () => {
+    LocalStorage.localStorageExpiry();
     return localStorage.shouldTechnologiesLoad
       ? JSON.parse(localStorage.shouldTechnologiesLoad)
       : true;
@@ -38,6 +56,7 @@ class LocalStorage {
       : null;
   };
   static shouldWorkHistoryLoad = () => {
+    LocalStorage.localStorageExpiry();
     return localStorage.shouldWorkHistoryLoad
       ? JSON.parse(localStorage.shouldWorkHistoryLoad)
       : true;
@@ -53,11 +72,13 @@ class LocalStorage {
       : null;
   };
   static shouldEducationLoad = () => {
+    LocalStorage.localStorageExpiry();
     return localStorage.shouldEducationLoad
       ? JSON.parse(localStorage.shouldEducationLoad)
       : true;
   };
   static shouldProjectLoad = () => {
+    LocalStorage.localStorageExpiry();
     return localStorage.shouldProjectLoad
       ? JSON.parse(localStorage.shouldProjectLoad)
       : true;
@@ -159,7 +180,6 @@ const TableHeaders = props => {
 
 const TableRow = props => {
 	let rows = [];
-	console.log();
 	props.body.forEach(row => {
 		rows.push(
 			<td key={row.data} colSpan={row.colspan}>
@@ -176,7 +196,7 @@ const TableRow = props => {
 
 const InfoTable = props => {
 	return (
-		<div className="clear">
+    <div className="single-table-container">
 			<table className="info-table">
 				<thead>
 					{props.theaders}
@@ -185,7 +205,7 @@ const InfoTable = props => {
 					{props.tbody}
 				</tbody>
 			</table>
-		</div>
+    </div>
 	);
 };
 
@@ -229,7 +249,7 @@ class Modal extends Component {
 			return (
 				<div id={this.props.id} className={this.props.className}>
 					<span className="close" onClick={this.closeButtonClicked}>
-						&times;
+						<i className="fa fa-times" style={{ color: "white" }}></i>
 					</span>
 					<div className="modal-content">
 						{this.props.modalContent}
@@ -241,6 +261,7 @@ class Modal extends Component {
 		}
 	}
 }
+
 
 export { TableHeaders };
 export { TableRow };

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from 'react-dom';
-import { ControlButtons, Modal } from "reactRoot/Components";
+import { Modal } from "reactRoot/Components";
 
 
 
@@ -14,7 +14,26 @@ class TaggedPhotos extends Component {
 				<img src={this.props.url} alt="Failed to load" />
 				<h3>
 					<span>
-						{this.props.comment}
+						{this.props.tag}
+					</span>
+				</h3>
+			</div>
+		);
+	}
+}
+
+
+class PhotosOverview extends Component {
+	onClick = () => {
+		this.props.onClick(this.props.tag)
+	}
+	render() {
+		return (
+			<div className="photo-preview" onClick={this.onClick}>
+				<img src={this.props.url} alt="Failed to load" />
+				<h3>
+					<span>
+						{this.props.tag}
 					</span>
 				</h3>
 			</div>
@@ -58,11 +77,11 @@ class PhotoModal extends Component {
 		return (
 			<div>
 				<p className="left-arrow" onClick={this.onLeftClick}>
-					&lt;
+					<i className="fa fa-chevron-left" style={{color: 'white'}}></i>
 				</p>
 					<img src={this.props.currentPhoto} alt="Failed to Load" key={this.props.currentPhoto+this.props.nextPhoto} />
 				<p className="right-arrow" onClick={this.onRightClick}>
-					&gt;
+					<i className="fa fa-chevron-right" style={{color: 'white'}}></i>
 				</p>
 			</div>
 		);
@@ -76,11 +95,27 @@ class Photos extends Component {
 		this.state = {
 			shouldPageLoad: true,
 			images: null,
-			showModalName: null
+			showModalName: null,
+			currentTag: null
 		};
 		this.setModalName = this.setModalName.bind(this);
+		this.onTagClick = this.onTagClick.bind(this);
+		this.goBack = this.goBack.bind(this);
 
+	};
+
+	goBack = () => {
+		this.setState({
+			currentTag: null
+		})
 	}
+
+	onTagClick = tag => {
+		this.setState({
+			currentTag: tag
+		})
+
+	};
 
 	setModalName = url => {
 		this.setState({
@@ -104,68 +139,124 @@ class Photos extends Component {
 					});
 				});
 		}
-
-		let images = [];
+		let imagesGroupedByTag = {}
+		let previewImages = []
 		let imageData = this.state.images;
-		let photoModals = [];
+
 		for (let i in imageData) {
 			i = parseInt(i, 10);
-			let previousPhoto = "",
-				nextPhoto = "",
-				currentPhoto = "";
-			let lastIndex = imageData.length - 1;
 
-			images.push(
+			if (!(imageData[i].tag in imagesGroupedByTag)){
+				imagesGroupedByTag[imageData[i].tag] = {}
+				imagesGroupedByTag[imageData[i].tag]["images"] = []
+
+				previewImages.push(
+					<PhotosOverview
+						url={imageData[i].image_url}
+						tag={imageData[i].tag}
+						key={imageData[i].image_url}
+						onClick={this.onTagClick}
+					/>
+				)
+			}
+
+			imagesGroupedByTag[imageData[i].tag]["images"].push(
 				<TaggedPhotos
 					url={imageData[i].image_url}
-					comment={imageData[i].comment}
+					tag={imageData[i].tag}
 					key={imageData[i].image_url}
+					comment={imageData[i].comment}
 					setModalName={this.setModalName}
 				/>
-			);
-
-			currentPhoto = imageData[i].image_url;
-			if (i === 0) {
-				previousPhoto = imageData[lastIndex].image_url;
-			} else {
-				previousPhoto = imageData[i - 1].image_url;
-			}
-			if (i === lastIndex) {
-				nextPhoto = imageData[0].image_url;
-			} else {
-				nextPhoto = imageData[i + 1].image_url;
-			}
-
-			let photoModal = (
-				<PhotoModal
-					currentPhoto={currentPhoto}
-					nextPhoto={nextPhoto}
-					previousPhoto={previousPhoto}
-					setModalName={this.setModalName}
-				/>
-			);	
-
-			photoModals.push(
-				<Modal
-					className="modal"
-					modalContent={photoModal}
-					key={currentPhoto}
-					name={currentPhoto}
-					showModalName={this.state.showModalName}
-				/>
-			);
+			)
 		}
 
+		for (let tag in imagesGroupedByTag){
+			let i = 0;
+			let photoModals = [];
+			let images = imagesGroupedByTag[tag].images;
+			for (let index in images){
+				let url = images[index].props.url;
+				let comment = images[index].props.comment;
+
+				let previousPhoto = "",
+					nextPhoto = "",
+					currentPhoto = "";
+				let lastIndex = images.length - 1;
+
+
+				currentPhoto = url;
+				if (i === 0) {
+					previousPhoto = images[lastIndex].props.url;
+				} else {
+					previousPhoto = images[i - 1].props.url;
+				}
+				if (i === lastIndex) {
+					nextPhoto = images[0].props.url;
+				} else {
+					nextPhoto = images[i + 1].props.url;
+				}
+				let photoModal = (
+					<PhotoModal
+						currentPhoto={currentPhoto}
+						nextPhoto={nextPhoto}
+						previousPhoto={previousPhoto}
+						setModalName={this.setModalName}
+					/>
+				);	
+
+				photoModals.push(
+					<Modal
+						className="modal"
+						modalContent={photoModal}
+						key={currentPhoto}
+						name={currentPhoto}
+						showModalName={this.state.showModalName}
+					/>
+				);
+
+				i = i + 1
+			imagesGroupedByTag[tag]["modals"] = photoModals
+			}
+		}
+
+
+
 		if (!this.shouldPageLoad) {
-			return (
-				<div className="padded-div">
-					<ControlButtons />
+
+			if (!this.state.currentTag){
+				return (
 					<div>
-						{images}
+						<div className="background photos-background"></div>
+						<h1 className="page-heading">Photos</h1>
+						<div className="photo-overview">
+							<div>
+								{previewImages}
+							</div>
+						</div>
 					</div>
-					{photoModals}
-				</div>
-			);
+				);
+			} else {
+				return (
+					<div>
+						<button className="photo-back" onClick={this.goBack}>
+							<i className="fa fa-caret-left" 
+								style={{"fontWeight":"bold", 
+								"fontSize":"8em", color:"white"}}>
+							</i>
+						</button>
+						<div className="background photos-background"></div>
+						<h1 className="page-heading">{this.state.currentTag}</h1>
+						<div className="photo-overview">
+							<div>
+								{imagesGroupedByTag[this.state.currentTag]["images"]}
+							</div>
+							{imagesGroupedByTag[this.state.currentTag]["modals"]}
+						</div>
+					</div>
+				)
+			}
+
 		}
 	}
 }
