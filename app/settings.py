@@ -19,20 +19,23 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'r^q25239iwv1(2s6=_hkr1is-a93yg3*5db7-*5612zs#^@vsb'
-
 
 IS_PRODUCTION = False
 if os.environ.get('IS_PRODUCTION'):
     IS_PRODUCTION = True
 
-ALLOWED_HOSTS = ["192.168.0.59", "192.168.0.59:8000", "127.0.0.1","mysite-django-react.herokuapp.com", "manjunathsatyamurthy.com", "www.manjunathsatyamurthy.com"]
+
+# SECURITY WARNING: keep the secret key used in production secret!
+if IS_PRODUCTION:
+    SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+else:
+    SECRET_KEY = 'r^q25239iwv1(2s6=_hkr1is-a93yg3*5db7-*5612zs#^@vsb'
+
 
 if IS_PRODUCTION:
     ALLOWED_HOSTS = ["mysite-django-react.herokuapp.com", "manjunathsatyamurthy.com", "www.manjunathsatyamurthy.com"]
-    DEBUG = True
 else:
+    ALLOWED_HOSTS = ["192.168.0.59", "127.0.0.1", "localhost"]
     DEBUG = True
 
 # Application definition
