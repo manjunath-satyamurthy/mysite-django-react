@@ -105,7 +105,6 @@ if IS_PRODUCTION:
     DATABASES["default"]["PASSWORD"] = password
     DATABASES["default"]["HOST"] = host
     DATABASES["default"]["NAME"] = name
-    print(DATABASES)
 
 
 # Password validation
