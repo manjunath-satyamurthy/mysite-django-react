@@ -559,8 +559,8 @@ object {
 
 
 .credit-contact-table {
-    margin-left: auto;
-    margin-right: auto;
+    /*margin-left: auto;
+    margin-right: auto;*/
     text-align: center;
 }
 
@@ -579,11 +579,11 @@ object {
 }
 
 .credit-contact-table tr:first-child td:first-child {
-    border-top-left-radius: 2em;
+    /*border-top-left-radius: 3.5em;*/
 } 
 
 .credit-contact-table tr:first-child td:last-child {
-    border-top-right-radius: 2em;  
+    /*border-top-right-radius: 2em;  */
 } 
 
 
@@ -705,12 +705,9 @@ object {
     }
 
     .single-table-container {
-        display: block;
-        max-width: none;
-        width: 80%;
+        display: inline-block;
+        max-width: 80%;
         padding: 0;
-        text-align: center;
-        margin-left: 10%;
     }
 
     .info-table {
@@ -744,15 +741,6 @@ object {
         padding: 0.5em;
         font-size: 3em;
         text-align: right;
-    }
-
-    .credit-contact-table {
-        width: 80%;
-        text-align: center;
-    }
-
-    .credit-contact-table .single-table-container {
-        min-height: 0px;
     }
 
     .credit-contact-table td:first-child {
