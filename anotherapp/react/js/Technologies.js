@@ -9,6 +9,20 @@ class Technologies extends Component {
 			shouldPageLoad: LocalStorage.shouldTechnologiesLoad(),
 			technologies: LocalStorage.technologies()
 		};
+		this.sortJson = this.sortJson.bind(this);
+	}
+
+	sortJson(json){
+		let soratableJson = []
+		for (let category in json){
+			soratableJson.push([category, json[category] ])
+		}
+
+		let sortedJson = soratableJson.sort(function(a, b){
+			return JSON.stringify(b[1]).length - JSON.stringify(a[1]).length
+		})
+
+		return sortedJson;
 	}
 
 	render() {
@@ -22,7 +36,8 @@ class Technologies extends Component {
 					}
 				})
 				.then(json => {
-					localStorage.technologies = json;
+					let sortedJSON = this.sortJson(JSON.parse(json));
+					localStorage.technologies = JSON.stringify(sortedJSON);
 					localStorage.shouldTechnologiesLoad = false;
 					this.setState({
 						technologies: LocalStorage.technologies(),
@@ -34,14 +49,16 @@ class Technologies extends Component {
 		let technologies = this.state.technologies;
 		let tables = [];
 		let key = 0;
-		for (let category in technologies) {
+		for (let i in technologies) {
+			let category = technologies[i][0];
+			let expertises = technologies[i][1];
 			let header = <TableHeaders
 					header={[{ head: category, colspan: 2 }]}
 					key={category}
 				/>
 			let body = [];
-			for (let expertise in technologies[category]) {
-				let particulars = technologies[category][expertise].join(", ");
+			for (let expertise in expertises) {
+				let particulars = expertises[expertise].join(", ");
 				body.push(
 					<TableRow
 						body={[
@@ -62,7 +79,7 @@ class Technologies extends Component {
 				<div>
 				<div className="background technologies-background"></div>
 				<h1 className="page-heading">Technologies</h1>
-				<div className="table-container">{tables}</div>
+				<div className="table-container technologies-table-container">{tables}</div>
 				</div>
 			);
 		} else {

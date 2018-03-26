@@ -14,7 +14,7 @@ class TaggedPhotos extends Component {
 				<img src={this.props.url} alt="Failed to load" />
 				<h3>
 					<span>
-						{this.props.tag}
+						{this.props.comment}
 					</span>
 				</h3>
 			</div>
