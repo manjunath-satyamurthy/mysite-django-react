@@ -34,7 +34,7 @@ else:
 
 if IS_PRODUCTION:
     ALLOWED_HOSTS = ["mysite-django-react.herokuapp.com", "manjunathsatyamurthy.com", "www.manjunathsatyamurthy.com"]
-    if IS_DEBUG_TRUE:
+    if os.environ.get('IS_DEBUG_TRUE'):
         DEBUG=True
 else:
     ALLOWED_HOSTS = ["192.168.0.59", "127.0.0.1", "localhost"]
