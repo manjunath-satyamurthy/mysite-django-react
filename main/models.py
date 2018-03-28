@@ -1,23 +1,40 @@
+import os
+
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
-import os
+from django.core.files.storage import Storage
+from django.core.files.storage import default_storage
+from django.utils.deconstruct import deconstructible
+
+
+@deconstructible
+class CloudinaryStorage(Storage):
+    def _open(self, name, mode='rb'):
+        return File(open(self.path(name), mode))
+
+    def _save(self, name, content):
+        if settings.IS_PRODUCTION:
+            import cloudinary
+            cloudinary_url = cloudinary.uploader.upload(content)
+            return cloudinary_url['url']
+        default_storage.save(name, content)
+        return name
+
+    def exists(self, name):
+        return False
+
+    def url(self, name):
+        if settings.IS_PRODUCTION:
+            return name
+        return 'media/'+name
+
 
 class RootUser(AbstractUser):
-    profile_photo = models.ImageField(upload_to="profile")
+    profile_photo = models.ImageField(upload_to="profile", storage=CloudinaryStorage())
     profile_photo_url = models.CharField(max_length=250, null=True, blank=True)
     description = models.TextField()
-    resume = models.FileField(upload_to="resume", default="resume/resume.pdf")
-    resume_url = models.CharField(max_length=250, null=True, blank=True)
-
-    __old_profile_photo = None
-    __old_resume = None
-
-    def __init__(self, *args, **kwargs):
-        super(RootUser, self).__init__(*args, **kwargs)
-        self.__old_profile_photo = self.profile_photo
-        self.__old_resume = self.resume
-
+    resume = models.FileField(upload_to="resume", default="resume/resume.pdf", storage=CloudinaryStorage())
 
     def update_photo(self, image):
         self.profile_photo = image
@@ -27,30 +44,6 @@ class RootUser(AbstractUser):
 
     def update_resume(self, resume):
         self.resume = resume
-
-    def save(self, *args, **kwargs):
-        super(RootUser, self).save(*args, **kwargs)
-        if self.profile_photo and self.__old_profile_photo != self.profile_photo.url:
-            if settings.IS_PRODUCTION:
-                import cloudinary
-                cloudinary_url = cloudinary.uploader.upload(self.profile_photo)
-                self.profile_photo_url = cloudinary_url['url']
-            else:
-                self.profile_photo_url = self.profile_photo.url
-
-            super(RootUser, self).save(*args, **kwargs)
-
-        if self.resume and self.__old_resume != self.resume:
-            if settings.IS_PRODUCTION:
-                import cloudinary
-                cloudinary_url = cloudinary.uploader.upload(self.resume)
-                self.resume_url = cloudinary_url['url']
-            else:
-                self.resume_url = self.resume.url
-
-            super(RootUser, self).save(*args, **kwargs)
-
-
 
 
 class Technologies(models.Model):
@@ -91,25 +84,6 @@ class Project(models.Model):
 
 
 class Photo(models.Model):
-    image = models.ImageField(upload_to="photos")
-    image_url = models.CharField(max_length=250, null=True, blank=True)
+    image = models.ImageField(upload_to="photos", storage=CloudinaryStorage())
     comment = models.CharField(max_length=500)
     tag = models.CharField(max_length=25)
-
-    __old_image = None
-
-    def __init__(self, *args, **kwargs):
-        super(Photo, self).__init__(*args, **kwargs)
-        self.__old_image = self.image
-
-    def save(self, *args, **kwargs):
-        super(Photo, self).save(*args, **kwargs)
-        if self.__old_image != self.image:
-            if os.environ.get("IS_PRODUCTION"):
-                import cloudinary
-                cloudinary_url = cloudinary.uploader.upload(self.image)
-                self.image_url = cloudinary_url['url']
-            else:
-                self.image_url = self.image.url
-
-            super(Photo, self).save(*args, **kwargs)
