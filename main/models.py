@@ -32,7 +32,6 @@ class CloudinaryStorage(Storage):
 
 class RootUser(AbstractUser):
     profile_photo = models.ImageField(upload_to="profile", storage=CloudinaryStorage())
-    profile_photo_url = models.CharField(max_length=250, null=True, blank=True)
     description = models.TextField()
     resume = models.FileField(upload_to="resume", default="resume/resume.pdf", storage=CloudinaryStorage())
 

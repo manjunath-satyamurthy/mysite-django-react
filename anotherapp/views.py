@@ -193,7 +193,7 @@ def get_photos(request):
 		result = []
 		for photo in photos:
 			result.append({
-			'image_url': photo.url,
+			'image_url': photo.image.url,
 			'comment': photo.comment,
 			'tag': photo.tag,
 			})
