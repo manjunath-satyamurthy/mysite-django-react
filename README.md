@@ -5,5 +5,5 @@
 
 ##### This application proposes a working architecture of Integrating Django application with ReactJS. Below is a diagram to help you understand.
 
-![Django-React-Architecture](https://i.imgur.com/ZyolGv1.png)
+![Django-React-Architecture](https://i.imgur.com/ds1IWsr.png)
 
