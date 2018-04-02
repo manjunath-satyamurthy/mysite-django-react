@@ -11,12 +11,7 @@ class TaggedPhotos extends Component {
 	render() {
 		return (
 			<div className="photo-preview" onClick={this.onClick}>
-				<img src={this.props.url} alt="Failed to load" />
-				<h3>
-					<span>
-						{this.props.comment}
-					</span>
-				</h3>
+				<img src={this.props.url} alt={this.props.comment} />
 			</div>
 		);
 	}
@@ -30,7 +25,7 @@ class PhotosOverview extends Component {
 	render() {
 		return (
 			<div className="photo-preview" onClick={this.onClick}>
-				<img src={this.props.url} alt="Failed to load" />
+				<img src={this.props.url} alt={this.props.tag} />
 				<h3>
 					<span>
 						{this.props.tag}
@@ -75,15 +70,33 @@ class PhotoModal extends Component {
 
 	render() {
 		return (
-			<div>
-				<p className="left-arrow" onClick={this.onLeftClick}>
-					<i className="fa fa-chevron-left" style={{color: 'white'}}></i>
-				</p>
-					<img src={this.props.currentPhoto} alt="Failed to Load" key={this.props.currentPhoto+this.props.nextPhoto} />
-				<p className="right-arrow" onClick={this.onRightClick}>
-					<i className="fa fa-chevron-right" style={{color: 'white'}}></i>
-				</p>
-			</div>
+
+			<table className="modal-content-table">
+			<tbody>
+				<tr>
+					<td>
+						<p className="left-arrow" onClick={this.onLeftClick}>
+							<i className="fa fa-chevron-left" style={{color: 'white'}}></i>
+						</p>					
+					</td>
+					<td>
+						<img src={this.props.currentPhoto} 
+							alt="Failed to Load" 
+							key={this.props.currentPhoto+this.props.nextPhoto}
+						/>
+						<h3>
+							{this.props.comment}
+						</h3>
+
+					</td>
+					<td>
+						<p className="right-arrow" onClick={this.onRightClick}>
+							<i className="fa fa-chevron-right" style={{color: 'white'}}></i>
+						</p>
+					</td>
+				</tr>
+			</tbody>
+			</table>
 		);
 	}
 }
@@ -106,7 +119,8 @@ class Photos extends Component {
 
 	goBack = () => {
 		this.setState({
-			currentTag: null
+			currentTag: null,
+			showModalName: null,
 		})
 	}
 
@@ -202,6 +216,7 @@ class Photos extends Component {
 						nextPhoto={nextPhoto}
 						previousPhoto={previousPhoto}
 						setModalName={this.setModalName}
+						comment={comment}
 					/>
 				);	
 

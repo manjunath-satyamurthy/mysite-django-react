@@ -10,13 +10,19 @@ from django.utils.deconstruct import deconstructible
 
 @deconstructible
 class CloudinaryStorage(Storage):
-    def _open(self, name, mode='rb'):
-        return File(open(self.path(name), mode))
+
+    def __init__(self, compress=False):
+        self.compress = compress
 
     def _save(self, name, content):
         if settings.IS_PRODUCTION:
             import cloudinary
-            cloudinary_url = cloudinary.uploader.upload(content)
+            if self.compress:
+                cloudinary_url = cloudinary.uploader.upload(
+                    content, transformation=[{"quality":"auto:low"}]
+                )
+            else:
+                cloudinary_url = cloudinary.uploader.upload(content)
             return cloudinary_url['url']
         default_storage.save(name, content)
         return name
@@ -31,9 +37,16 @@ class CloudinaryStorage(Storage):
 
 
 class RootUser(AbstractUser):
-    profile_photo = models.ImageField(upload_to="profile", storage=CloudinaryStorage())
+    profile_photo = models.ImageField(
+        upload_to="profile",
+        storage=CloudinaryStorage()
+    )
     description = models.TextField()
-    resume = models.FileField(upload_to="resume", default="resume/resume.pdf", storage=CloudinaryStorage())
+    resume = models.FileField(
+        upload_to="resume",
+        default="resume/resume.pdf",
+        storage=CloudinaryStorage()
+    )
 
     def update_photo(self, image):
         self.profile_photo = image
@@ -83,6 +96,9 @@ class Project(models.Model):
 
 
 class Photo(models.Model):
-    image = models.ImageField(upload_to="photos", storage=CloudinaryStorage())
+    image = models.ImageField(
+        upload_to="photos",
+        storage=CloudinaryStorage(compress=True)
+    )
     comment = models.CharField(max_length=500)
     tag = models.CharField(max_length=25)
