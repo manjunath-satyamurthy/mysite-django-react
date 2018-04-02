@@ -3,6 +3,15 @@ import ReactDOM from 'react-dom';
 import { Modal } from "reactRoot/Components";
 
 
+let getValidURL = url => {
+	if (window.location.host.indexOf(':') > -1){
+		console.log(window.location.host + "/" + url)
+		return 'http://'+window.location.host + "/" + url
+	} else {
+		return url
+	}
+}
+
 
 class TaggedPhotos extends Component {
 	onClick = () => {
@@ -11,7 +20,7 @@ class TaggedPhotos extends Component {
 	render() {
 		return (
 			<div className="photo-preview" onClick={this.onClick}>
-				<img src={this.props.url} alt={this.props.comment} />
+				<img src={getValidURL(this.props.url)} alt={this.props.comment} />
 			</div>
 		);
 	}
@@ -25,7 +34,7 @@ class PhotosOverview extends Component {
 	render() {
 		return (
 			<div className="photo-preview" onClick={this.onClick}>
-				<img src={this.props.url} alt={this.props.tag} />
+				<img src={getValidURL(this.props.url)} alt={this.props.tag} />
 				<h3>
 					<span>
 						{this.props.tag}
@@ -80,7 +89,7 @@ class PhotoModal extends Component {
 						</p>					
 					</td>
 					<td>
-						<img src={this.props.currentPhoto} 
+						<img src={getValidURL(this.props.currentPhoto)} 
 							alt="Failed to Load" 
 							key={this.props.currentPhoto+this.props.nextPhoto}
 						/>

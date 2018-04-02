@@ -465,21 +465,15 @@ object {
     position: absolute;
     height: 90%;
     width: 100%;
-    margin-top: 10%;
+    margin-top: 5%;
 }
 
 .modal-content h3 {
     color: white;
 }
 
-
-.modal-content-table {
-    width: 100%;
-    height: 81%;
-}
-
 .modal-content-table tbody tr td img {
-    width: 80%;
+    max-width: 80%;
 }
 
 .modal-content-table tbody tr td {
