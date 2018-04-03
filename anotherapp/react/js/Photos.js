@@ -88,7 +88,7 @@ class PhotoModal extends Component {
 							<i className="fa fa-chevron-left" style={{color: 'white'}}></i>
 						</p>					
 					</td>
-					<td>
+					<td className="image-cell">
 						<img src={getValidURL(this.props.currentPhoto)} 
 							alt="Failed to Load" 
 							key={this.props.currentPhoto+this.props.nextPhoto}
