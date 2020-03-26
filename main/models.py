@@ -23,7 +23,7 @@ class CloudinaryStorage(Storage):
                 )
             else:
                 cloudinary_url = cloudinary.uploader.upload(content)
-            return cloudinary_url['url']
+            return cloudinary_url['secure_url']
         default_storage.save(name, content)
         return name
 
